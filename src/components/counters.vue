@@ -16,11 +16,6 @@ export default {
       }
       this.data.push(newData);
       },
-    getTime(times) { 
-      const newTime = Math.trunc(times);
-      if (newTime < 10) return "0" + newTime;
-      return newTime;
-    },
     resetDataTime(counter) {
      return this.data = this.data.filter(el=> el.id !== counter.id)
     }
@@ -37,7 +32,7 @@ export default {
       :key="counter.id"
     >
         <div class="counter-time" :class="{'counter-active': counter.active}">
-            {{ [Math.trunc(counter.time/60/60%60), Math.trunc(counter.time/60%60) > 0 && getTime(counter.time/60%60),  getTime(counter.time%60)].filter(el=> !!el).join(":")}}  
+            {{ [Math.trunc(counter.time/60/60%60), Math.trunc(counter.time/60%60),  `${Math.trunc(counter.time%60)}`].filter(el=> !!el).join(":")}}  
         </div> 
         <div class="counter-btn">
           <div :class="{'pause': counter.active, 'triangle': !counter.active}" v-on:click="!counter.active ? counter.startTime() : counter.stopTime() "></div>
@@ -116,9 +111,9 @@ export default {
 
 .pause{
   width: 10px;
-    height: 20px;
-    border-style: double;
-    border-width: 0px 0px 0px 10px;
-    border-color: #ffffff;
+  height: 20px;
+  border-style: double;
+  border-width: 0px 0px 0px 10px;
+  border-color: #ffffff;
 }
 </style>
