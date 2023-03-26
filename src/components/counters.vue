@@ -9,10 +9,17 @@ export default {
     createData() {
       const newId = this.data.length + 1;
       let intervalTime = false;
+      const date = new Date().getTime();
+      console.log(date);
       const newData = {
-        id: newId, time: 0, active: false,
-        startTime() { this.active = !this.active; clearInterval(intervalTime); return intervalTime = setInterval(()=>this.time++, 10)},
-        stopTime() { this.active = !this.active;  return clearInterval(intervalTime) },
+        id: newId, time: 0, active: false, timeinterval: 0,
+        startTime() {
+          this.active = !this.active;
+          const date = new Date().getTime();
+          clearInterval(intervalTime);
+          return intervalTime = setInterval(() => this.time = new Date().getTime() - date + this.timeinterval, 10)
+        },
+        stopTime() { this.active = !this.active; this.timeinterval = this.time; return clearInterval(intervalTime) },
       }
       this.data.push(newData);
       },
@@ -32,7 +39,7 @@ export default {
       :key="counter.id"
     >
         <div class="counter-time" :class="{'counter-active': counter.active}">
-            {{ [Math.trunc(counter.time/100/60/60%60), Math.trunc(counter.time/100/60%60),  `${Math.trunc(counter.time/100%60)}`].filter(el=> !!el).join(":")}}  
+            {{ [Math.trunc(counter.time/1000/60/60%60), Math.trunc(counter.time/1000/60%60),  `${Math.trunc(counter.time/1000%60)}`].filter(el=> !!el).join(":")}}  
         </div> 
         <div class="counter-btn">
           <div :class="{'pause': counter.active, 'triangle': !counter.active}" v-on:click="!counter.active ? counter.startTime() : counter.stopTime() "></div>
